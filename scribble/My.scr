@@ -1,0 +1,19 @@
+module scribble.My;
+
+type <java> "Integer" from "rt.jar" as Group;
+type <java> "String" from "rt.jar" as IP;
+
+
+global protocol Chord(role Client, role Node, role Succ, role Receiver) {
+	
+	find(Group, IP) from Client to Node;
+	
+	choice at Node {
+		found(Group, IP) from Node to Receiver;
+		nil() from Node to Succ;
+	} or {
+		find(Group, IP) from Node to Succ;
+		nil() from Node to Receiver;
+	}
+	
+}
